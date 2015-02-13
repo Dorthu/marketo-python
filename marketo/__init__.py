@@ -7,7 +7,7 @@ __version__ = VERSION
 import requests
 import auth
 
-from marketo.wrapper import get_lead, get_lead_activity, request_campaign, sync_lead
+from marketo.wrapper import get_lead, get_lead_activity, request_campaign, sync_lead, sync_multiple_leads
 
 
 class Client:
@@ -108,3 +108,17 @@ class Client:
             return sync_lead.unwrap(response)
         else:
             raise Exception(response.text)
+
+    def sync_multiple_leads(self, leads=None, create_duplicates=False):
+
+	if not leads or not isinstance(leads, tuple):
+		raise ValueError('Must supply leads as a non-empty tuple.')
+
+	body = sync_multiple_leads.wrap(leads, create_duplicates)
+
+	response = self.request(body)
+
+	if response.status_code == 200:
+		return  sync_multiple_leads.unwrap(response)
+	else:
+		raise Exception(response.text)

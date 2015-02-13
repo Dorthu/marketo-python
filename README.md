@@ -79,6 +79,25 @@ lead = client.sync_lead(
 )
 ```
 
+## Sync Multiple Leads
+
+This fucntion updates multiple lead records from Marketo.  If a lead without a matching email isn't found in the database, a new one is created.  The request returns a list of results detailing creation/update/failure for each lead.
+
+```python
+result = client.sync_multiple_leads(leads = (
+		('user@gmail.com', (
+			('City', 'string', 'Toronto'),
+			('Country', 'string', 'Canada'),
+			('Title', 'string', 'Web Developer'),
+		)
+	),
+		('another.user@gmail.com', (
+			('Phone', 'string', '5551234567'),
+		)
+	)
+))
+```
+
 ## Request Campaign
 
 This function triggers a Marketo campaign request (typically used to activate a campaign after a user has filled out a form). This requires the numeric ID of both a campaign and the lead that is to be associated with the campaign. Returns True on success.
